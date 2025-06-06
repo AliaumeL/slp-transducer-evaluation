@@ -1,4 +1,3 @@
-from automata import DFA
 
 
 def main():
