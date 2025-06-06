@@ -1,0 +1,25 @@
+name: Python Linter and Type Checker 
+on: [ push, pull_request ]
+jobs:
+  linter:
+    name: "Ruff linter"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
+        with:
+          src: "./slp-eval-py"
+  typecheck:
+    runs-on: ubuntu-latest
+    name: "Pyrefly Checker"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          working-directory: "./slp-eval-py"
+      - name: Install the project
+        run: cd slp-eval-py && uv sync --locked --all-extras --dev
+      - name: Run pyrefly
+        run: cd slp-eval-py && uv run pyrefly check

@@ -1,5 +1,5 @@
 [project]
-name = "spl-eval-py"
+name = "slp-eval-py"
 version = "0.1.0"
 description = "Evaluating various transducer and automata models on compressed strings"
 readme = "../README.md"
@@ -7,4 +7,16 @@ requires-python = ">=3.13"
 dependencies = [
     "click>=8.2.1",
     "dataclasses>=0.8",
+]
+
+[dependency-groups]
+dev = [
+    "pyrefly>=0.18.0",
+    "ruff>=0.11.13",
+]
+[tool.pyrefly]
+project_includes = ["**/*"]
+project_excludes = [
+    "**/.[!/.]*",
+    "**/*venv/**/*",
 ]
