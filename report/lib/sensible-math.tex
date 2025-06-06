@@ -1,0 +1,16 @@
+% definitions
+\NewDocumentCommand{\defined}{ }{\triangleq}
+
+% set theory
+\NewDocumentCommand{\set}{ m }{\{ #1 \}}
+\NewDocumentCommand{\setof}{ m m }{\{ #1 \mid #2 \}}
+\NewDocumentCommand{\seqof}{ m m }{\left( #1 \right)_{#2}}
+\NewDocumentCommand{\card}{ m }{\left| #1 \right|}
+\newcommand{\subfin}{\subset_{\text{fin}}}
+
+
+% functions of all sorts (injective, partial, surjective)
+\newcommand{\topartial}{\rightharpoonup}
+\newcommand{\toinj}{\hookrightarrow}
+\newcommand{\tosurj}{\twoheadrightarrow}
+\newcommand{\tobij}{\stackrel{\simeq}{\longrightarrow}}

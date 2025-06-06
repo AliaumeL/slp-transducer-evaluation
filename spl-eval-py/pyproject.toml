@@ -1,0 +1,10 @@
+[project]
+name = "spl-eval-py"
+version = "0.1.0"
+description = "Evaluating various transducer and automata models on compressed strings"
+readme = "../README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "click>=8.2.1",
+    "dataclasses>=0.8",
+]
