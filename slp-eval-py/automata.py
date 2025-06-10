@@ -1,8 +1,11 @@
+from typing import TypeVar, Generic
 from dataclasses import dataclass
 
+A = TypeVar('A')
+S = TypeVar('S')
 
 @dataclass
-class DFA[A, S]:
+class DFA(Generic[A, S]):
     """A (deterministic complete) finite state automaton"""
 
     states: set[S]
@@ -24,7 +27,7 @@ class DFA[A, S]:
 
 
 @dataclass
-class NFA[A, S]:
+class NFA(Generic[A, S]):
     """A non-deterministic finite state automaton"""
 
     states: set[S]
@@ -45,8 +48,8 @@ class NFA[A, S]:
         return "TODO implement"
 
 
-@dataclass
-class TDFA[A, S]:
-    """A two-way deterministic finite state automaton"""
+# @dataclass
+# class TDFA[A, S]:
+#     """A two-way deterministic finite state automaton"""
 
-    pass  # TODO: implement
+#     pass  # TODO: implement
