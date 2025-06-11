@@ -1,4 +1,3 @@
-import pytest
 from slp_eval.compression_model import SLP
 
 

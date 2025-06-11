@@ -1,6 +1,6 @@
 from typing import TypeVar, Generic
 from dataclasses import dataclass
-from automata import DFA
+from slp_eval.automata import DFA
 
 A = TypeVar('A')
 S = TypeVar('S')
