@@ -18,3 +18,5 @@ To run the test suite, you can use:
 ```bash
 uv run pytest
 ```
+
+[UV]: https://github.com/astral-sh/uv
