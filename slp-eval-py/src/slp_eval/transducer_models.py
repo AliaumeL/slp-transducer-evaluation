@@ -1,13 +1,18 @@
 from dataclasses import dataclass
+from typing import TypeVar, Generic, Union
+
+I = TypeVar('I') # Input Alphabet
+O = TypeVar('O') # Output Alphabet
+S = TypeVar('S') # States
+R = TypeVar('R') # Registers
 
 
 @dataclass
-class Mealy[I, O, S]:
+class Mealy(Generic[I, O, S]):
     """A (deterministic complete) mealy machine with
     input alphabet I, output alphabet O, and state
     space S.
     """
-
     states: set[S]
     delta: dict[tuple[S, I], S]
     lambda: dict[tuple[S, I], O]
@@ -15,7 +20,7 @@ class Mealy[I, O, S]:
 
 
 @dataclass
-class Sequential[I, O, S]:
+class Sequential(Generic[I, O, S]):
     """A sequential function, i.e., a
     deterministic transducer with word
     outputs
@@ -25,14 +30,14 @@ class Sequential[I, O, S]:
 
 
 @dataclass
-class BiMachine[I, O, S]:
+class BiMachine(Generic[I, O, S]):
     """Bi-machine"""
 
     pass
 
 
 @dataclass
-class UFT[I, O, S]:
+class UFT(Generic[I, O, S]):
     """Unambiguous finite state transducer with
     word outputs
     """
@@ -41,7 +46,19 @@ class UFT[I, O, S]:
 
 
 @dataclass
-class TDFT[I, O, S]:
+class TDFT(Generic[I, O, S]):
     """deterministic two-way transducer with outputs"""
 
     pass
+
+@dataclass
+class SST(Generic[I, O, S, R]):
+    """ Streaming String Transducer with copyless restriction"""
+    """ Input alphabet I, output alphabet O, state space S, register list R"""
+    states: set[S]
+    registers: set[R]
+    delta: dict[tuple[S, I], S]
+    reg_update: dict[tuple[S, I], dict[R, list[Union[R, O]]]]  # Copyless: right-hand side uses registers at most once
+    output_fn: dict[S, list[Union[R, O]]]
+    init_state: S 
+    init_regs: dict[R, list[O]] # initial register valuation
