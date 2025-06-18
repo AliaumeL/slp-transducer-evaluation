@@ -1,7 +1,6 @@
 from slp_eval.compression_model import SLP
 import pytest
-from slp_eval.tests.automata_test import ends_with_b_dfa, ends_with_a_dfa
-from slp_eval.automata import DFA
+from slp_eval.tests.automata_test import ends_with_b_dfa, ends_with_a_dfa  #noqa
 
 def test_super_compress():
     for n in range(10):
