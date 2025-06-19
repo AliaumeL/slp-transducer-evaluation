@@ -25,6 +25,12 @@ class LZ78(Generic[A]):
                 index += 1
                 current.clear()
 
+        if current:
+            if len(current) == 1:
+                result.append((0, current[0]))
+            else:
+                result.append((dictionary[tuple(current[:-1])], current[-1]))
+        
         return result
 
     def decompress(self, compressed: List[Tuple[int, A]]) -> List[A]:
