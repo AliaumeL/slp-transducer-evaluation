@@ -18,7 +18,8 @@ class SLP(Generic[A]):
 
 
     def evaluate(self) -> list[A]:
-        if len(self.constants)==0: return []
+        if len(self.constants)==0:
+            return []
         s: list[list[A]] = [[c] for c in self.constants]
         for i, j in self.instructions:
             r = s[i] + s[j]

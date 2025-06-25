@@ -4,6 +4,7 @@ from .compression_model import SLP
 
 A = TypeVar('A')
 
+# Source used: https://en.wikipedia.org/wiki/LZ77_and_LZ78#LZ78
 @dataclass
 class LZ78String(Generic[A]):
     """A compressed sequence using LZ78 encoding."""
@@ -142,21 +143,3 @@ class LZ78String(Generic[A]):
     def __repr__(self) -> str:
         return f"LZ78String(content={self.content})"
 
-# Example usage:
-if __name__ == '__main__':
-    # Compress a list of integers
-    raw_ints = [1, 2, 1, 2, 1, 3]
-    comp_int = LZ78String.from_list(raw_ints)
-    print("Compressed ints:", comp_int)
-    print("Decompressed ints:", comp_int.to_list())
-
-    # Compress a list of characters
-    raw_chars = list("abracadabra")
-    comp_chars = LZ78String.from_list(raw_chars)
-    print("Compressed chars:", comp_chars)
-    print("Decompressed chars:", ''.join(comp_chars.to_list()))
-
-    # From codes
-    codes = comp_chars.to_codes()
-    comp_again = LZ78String.from_codes(codes)
-    print("Round-trip OK?", ''.join(comp_again.to_list()) == "abracadabra")
