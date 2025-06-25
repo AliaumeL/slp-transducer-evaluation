@@ -53,12 +53,15 @@ class TDFT(Generic[I, O, S]):
 
 @dataclass
 class SST(Generic[I, O, S, R]):
-    """ Streaming String Transducer with copyless restriction"""
-    """ Input alphabet I, output alphabet O, state space S, register list R"""
+    """ Streaming String Transducer with copyless restriction
+    Input alphabet I, output alphabet O, state space S, register list R"""
     states: set[S]
     registers: set[R]
+    input_lang: set[I]
+    output_lang: set[O]
+    init_state: S 
+    init_regs: dict[R, list[O]] # initial register valuation
+
     delta: dict[tuple[S, I], S]
     reg_update: dict[tuple[S, I], dict[R, list[Union[R, O]]]]  # Copyless: right-hand side uses registers at most once
     output_fn: dict[S, list[Union[R, O]]]
-    init_state: S 
-    init_regs: dict[R, list[O]] # initial register valuation

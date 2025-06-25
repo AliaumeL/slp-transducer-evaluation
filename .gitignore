@@ -321,3 +321,6 @@ TSWLatexianTemp*
 
 # pycache
 __pycache__
+
+# venv
+.venv/
