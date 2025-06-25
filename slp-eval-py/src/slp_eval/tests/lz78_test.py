@@ -124,9 +124,9 @@ def test_invalid_from_codes() -> None:
         LZ78String.from_codes("not a list")  # type: ignore
     # List with invalid items
     with pytest.raises(ValueError):
-        LZ78String.from_codes([(1, 'a'), ("bad_prefix", 'b')])  # invalid prefix type
+        LZ78String.from_codes([(1, 'a'), ("bad_prefix", 'b')])  # invalid prefix type # type: ignore[arg-type]
     with pytest.raises(ValueError):
-        LZ78String.from_codes([(1,), (0, 'c', 'extra')])  # wrong tuple length
+        LZ78String.from_codes([(1,), (0, 'c', 'extra')])  # wrong tuple length # type: ignore[arg-type]
 
 
 def test_invalid_from_list() -> None:
