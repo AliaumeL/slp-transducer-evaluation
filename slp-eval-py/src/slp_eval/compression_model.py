@@ -12,7 +12,14 @@ class SLP(Generic[A]):
     constants: list[A]
     instructions: list[tuple[int, int]]
 
+    def __init__(self, constants: list[A], instructions: list[tuple[int, int]]):
+        self.constants = constants
+        self.instructions = instructions
+
+
     def evaluate(self) -> list[A]:
+        if len(self.constants)==0:
+            return []
         s: list[list[A]] = [[c] for c in self.constants]
         for i, j in self.instructions:
             r = s[i] + s[j]
