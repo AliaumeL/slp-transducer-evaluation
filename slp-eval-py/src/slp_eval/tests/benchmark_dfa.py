@@ -37,7 +37,7 @@ def dfa_accept_blue() -> DFA[str, int]:
 
     alphabet = set(string.ascii_uppercase + string.ascii_lowercase + string.whitespace + string.punctuation + string.digits)
 
-    delta = {}
+    delta : dict[tuple[int, str], int] = {}
 
     # State 0: waiting for 'b' or 'B'
     for c in alphabet:

@@ -94,7 +94,7 @@ class SST(Generic[I, O, S, R]):
                         used_regs.add(x)
                         new_val.extend(registers[cast(R, x)])
                     else:
-                        new_val.append(x) 
+                        new_val.append(cast(O, x)) 
                 new_registers[reg] = new_val
 
             # Mutate the original register dictionary
@@ -131,7 +131,7 @@ class SST(Generic[I, O, S, R]):
                             evaluated += regs[cast(R, item)]
                             used_registers.add(item)
                         else:
-                            evaluated.append(item)
+                            evaluated.append(cast(O, item))
                     new_regs[r] = evaluated
                 else:
                     new_regs[r] = regs[r]  # unchanged

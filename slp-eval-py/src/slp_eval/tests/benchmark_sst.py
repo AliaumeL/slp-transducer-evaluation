@@ -22,8 +22,8 @@ def replace_every_2nd_a_sst() -> SST[str, str, str, str]:
     init_state = "q0"
     init_regs = {"R": []}
 
-    delta = {}
-    reg_update = {}
+    delta : dict[tuple[str, str], str] = {}
+    reg_update : dict[tuple[str, str], dict[str, list[str | str]]] = {}
 
     for c in alphabet:
         if c == "a":
@@ -74,8 +74,8 @@ def words_after_blue_sst() -> SST[str, str, str, int]:
     init_state = "q0"
     init_regs = {1: []}
 
-    delta = {}
-    reg_update = {}
+    delta : dict[tuple[str, str], str] = {}
+    reg_update : dict[tuple[str, str], dict[int, list[int | str]]] = {}
 
     # q0: waiting for 'b'
     for c in alphabet:

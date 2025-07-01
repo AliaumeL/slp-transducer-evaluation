@@ -91,7 +91,7 @@ class SLP(Generic[I]):
             if sym in sst.registers:
                 output.extend(registers[cast(R, sym)])
             else:
-                output.append(sym)
+                output.append(cast(O, sym))
 
         return output
 
