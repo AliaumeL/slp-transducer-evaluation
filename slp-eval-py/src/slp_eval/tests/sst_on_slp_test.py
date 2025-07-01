@@ -2,6 +2,7 @@ import pytest
 from slp_eval.transducer_models import SST
 from slp_eval.compression_model import SLP
 
+
 #Fixtures
 
 @pytest.fixture
@@ -70,28 +71,28 @@ def slp_abaab() -> SLP[str]:
 
 @pytest.fixture
 def w() -> list[str]:
-    return list("")
+    return list("ababababaaa")
 
 # Testcases
 
 def test_identity_sst_on_aba(identity_sst, slp_aba):
-    output = slp_aba.run_SST(identity_sst)
+    output = slp_aba.run_sst_on_slp(identity_sst)
     assert output == list("aba")
 
 def test_identity_sst_on_abaab(identity_sst, slp_abaab):
-    output = slp_abaab.run_SST(identity_sst)
+    output = slp_abaab.run_sst_on_slp(identity_sst)
     assert output == list("abaab")
 
 def test_reverse_sst_on_aba(reverse_sst, slp_aba):
-    output = slp_aba.run_SST(reverse_sst)
+    output = slp_aba.run_sst_on_slp(reverse_sst)
     assert output == list("aba")
 
 def test_reverse_sst_on_abaab(reverse_sst, slp_abaab):
-    output = slp_abaab.run_SST(reverse_sst)
+    output = slp_abaab.run_sst_on_slp(reverse_sst)
     assert output == list("baaba")
 
-def test_string_to_slp(w):
-    slp = SLP.string_to_slp_naive(w)
+def test_list_to_slp(w):
+    slp = SLP.list_to_slp(w)
     output = slp.evaluate()
     print(slp.constants)
     print(slp.instructions)
@@ -99,7 +100,7 @@ def test_string_to_slp(w):
 
 def test_identity_sst_output_on_aba(identity_sst, slp_aba):
     # Get output SLP
-    output_slp = slp_aba.run_SST_output_slp(identity_sst, "")
+    output_slp = slp_aba.run_sst_output_compression(identity_sst, "")
     # Evaluate the resulting SLP
     output = output_slp.evaluate()
     output = ''.join(output) # gets rid of empty symbol 
@@ -107,7 +108,7 @@ def test_identity_sst_output_on_aba(identity_sst, slp_aba):
 
 def test_identity_sst_output_on_abaab(identity_sst, slp_abaab):
     # Get output SLP
-    output_slp = slp_abaab.run_SST_output_slp(identity_sst, "")
+    output_slp = slp_abaab.run_sst_output_compression(identity_sst, "")
     # Evaluate the resulting SLP
     output = output_slp.evaluate()
     output = ''.join(output) # gets rid of empty symbol 
@@ -115,8 +116,16 @@ def test_identity_sst_output_on_abaab(identity_sst, slp_abaab):
 
 def test_reverse_sst_output_on_abaab(reverse_sst, slp_abaab):
     # Get output SLP
-    output_slp = slp_abaab.run_SST_output_slp(reverse_sst, "")
+    output_slp = slp_abaab.run_sst_output_compression(reverse_sst, "")
     # Evaluate the resulting SLP
     output = output_slp.evaluate()
     output = ''.join(output) # gets rid of empty symbol 
     assert output == "baaba"
+
+def test_run_SST_normal(identity_sst, w):
+    output = identity_sst.run_on_list(w)
+    assert (output == w)
+
+def test_sst_dumb(slp_abaab, reverse_sst):
+    output = slp_abaab.run_sst_dumb(reverse_sst)
+    assert output == list("baaba")
