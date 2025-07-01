@@ -1,11 +1,14 @@
 from slp_eval.transducer_models import SST
 from slp_eval.compression_model import SLP
+
 import string
 import time
 import matplotlib.pyplot as plt
 import os
 import gc
 import random
+
+from typing import cast
 
 def replace_every_2nd_a_sst() -> SST[str, str, str, str]:
     """
@@ -47,8 +50,8 @@ def replace_every_2nd_a_sst() -> SST[str, str, str, str]:
     sst = SST(
         states=states,
         registers=registers,
-        input_lang=alphabet,
-        output_lang=alphabet,
+        input_lang=cast(set[str], alphabet),
+        output_lang=cast(set[str], alphabet),
         delta=delta,
         reg_update=reg_update,
         output_fn=output_fn,
@@ -151,7 +154,7 @@ def words_after_blue_sst() -> SST[str, str, str, int]:
         reg_update[("done", c)] = {1: [1, " "]}
 
     # Output function: emit register r only in done state
-    output_fn = {
+    output_fn : dict[str, list[int | str]] = {
         "q0": [1],
         "b1": [1],
         "b2": [1],
@@ -166,13 +169,13 @@ def words_after_blue_sst() -> SST[str, str, str, int]:
     sst = SST(
         states=states,
         registers=registers,
-        input_lang=alphabet,
-        output_lang=alphabet,
+        input_lang=cast(set[str], alphabet),
+        output_lang=cast(set[str], alphabet),
         init_state=init_state,
         init_regs=init_regs,
         delta=delta,
         reg_update=reg_update,
-        output_fn=output_fn #type: ignore
+        output_fn= output_fn
     )
 
     return sst
@@ -368,7 +371,7 @@ def generate_random_compressible_slp(n: int) -> SLP[str]:
     and enforces deeper structure: left/right are always chosen
     from instructions only if possible.
     """
-    constants = list("abcdefghijklmnopqrstuvwxyz")
+    constants = cast(list[str], list("abcdefghijklmnopqrstuvwxyz"))
     instructions = []
     num_constants = 26
     current_size = num_constants
@@ -430,8 +433,6 @@ def benchmark_random_slps(sst: SST, max_limit: int, step_size: int):
         print(f"Benchmarked random SLP: {num_instructions} instructions, input length {input_size}, slp size {slp_size}")
 
     return results
-
-import matplotlib.pyplot as plt
 
 def plot_random_slps(results):
     """

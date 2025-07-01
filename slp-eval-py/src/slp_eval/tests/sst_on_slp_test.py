@@ -1,10 +1,8 @@
-import pytest
 from slp_eval.transducer_models import SST
 from slp_eval.compression_model import SLP
-
+import pytest
 
 #Fixtures
-
 @pytest.fixture
 def identity_sst() -> SST[str, str, str, str]:
     sst = SST(

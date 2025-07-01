@@ -6,9 +6,9 @@ from collections import deque
 
 # changed A to I everywhere to match inconsistency
 # A = TypeVar('A') 
-S = TypeVar('S')
-I = TypeVar('I')
-O = TypeVar('O')
+S = TypeVar('S') 
+I = TypeVar('I') #noqa
+O = TypeVar('O') #noqa
 R = TypeVar('R')
 
 
@@ -18,9 +18,7 @@ class SLP(Generic[I]):
     constants: list[I]
     instructions: list[tuple[int, int]]
 
-    # 
     def evaluate(self) -> list[I]:
-        EMPTY = cast(I, "")
 
         # empty SLP check
         if (len(self.constants) == 0):
@@ -83,8 +81,9 @@ class SLP(Generic[I]):
                         stack.append(self.instructions[xi - consts])       
                     else:
                         raise ValueError("Wrong register operation in SLP: " + xi)
+                    
                 elif op < consts: # if we are computing a constant
-                    state = sst.deltastar(self.constants[op], state, registers)
+                    state = sst.deltastar([self.constants[op]], state, registers)
 
         output_expr = sst.output_fn[state]
         output = []
@@ -160,7 +159,7 @@ class SLP(Generic[I]):
         
         return output
     
-    def run_sst_output_compression(self, sst: SST[I, O, S, R], EMPTY:O) -> 'SLP[O]':
+    def run_sst_output_compression(self, sst: SST[I, O, S, R], EMPTY:O) -> 'SLP[Union[R,O]]':
         # state x reg x input -> new reg expression compressed as SLP
         slp_regs: list[dict[tuple[S, R], SLP]] = []
          # state x input -> state
@@ -268,10 +267,10 @@ class SLP(Generic[I]):
         final_output : list[Union[R, O]] = sst.output_fn[final_state]
         reg_map : dict[tuple[S, R], SLP] = slp_regs[-1]  # Final register SLPs
 
-        output_slp = SLP(constants=[], instructions=[])
+        output_slp : SLP[Union[R, O]] = SLP(constants=[], instructions=[])
 
         output_slp.constants.append(EMPTY)
-        output_slp.constants.extend(sst.registers)
+        output_slp.constants.extend(sst.registers) 
         output_slp.constants.extend(sst.output_lang)
         consts = len(output_slp.constants)
         instrn_counter = 0

@@ -65,9 +65,8 @@ class SST(Generic[I, O, S, R]):
     reg_update: dict[tuple[S, I], dict[R, list[Union[R, O]]]]  # Copyless: right-hand side uses registers at most once
     output_fn: dict[S, list[Union[R, O]]]
 
-
     def deltastar(self, word: list[I], state: S, registers : dict[R, list[O]]) -> S:
-        """Run the SST over the input `word`, updating `state` and `registers` in-place."""
+        """Run the SST over the input word, updating state and registers in-place."""
         for symbol in word:
             key = (state, symbol)
             if key not in self.delta:
@@ -89,13 +88,13 @@ class SST(Generic[I, O, S, R]):
                 new_val = []
                 used_regs = set()
                 for x in rhs:
-                    if isinstance(x, str) and x in self.registers:
+                    if x in self.registers:
                         if x in used_regs:
                             raise ValueError(f"Copyless violation: register {x} used more than once")
                         used_regs.add(x)
                         new_val.extend(registers[cast(R, x)])
                     else:
-                        new_val.append(x)
+                        new_val.append(x) 
                 new_registers[reg] = new_val
 
             # Mutate the original register dictionary
@@ -141,11 +140,11 @@ class SST(Generic[I, O, S, R]):
             state = next_state
 
         # After processing input, compute the output using the output function
-        output = []
+        output : list[O] = []
         for item in self.output_fn.get(state, []):
             if item in self.registers:
                 output += regs[cast(R, item)]
             else:
-                output.append(item)
+                output.append(cast(O, item))
 
         return output

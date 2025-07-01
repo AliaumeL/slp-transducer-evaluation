@@ -1,10 +1,11 @@
+from slp_eval.compression_model import SLP
+from slp_eval.lz78 import LZ78String
+from slp_eval.automata import DFA
+
 import time
 import os
 import matplotlib.pyplot as plt
 import string
-from slp_eval.compression_model import SLP
-from slp_eval.lz78 import LZ78String
-from slp_eval.automata import DFA
 import gc
 import random
 
@@ -210,8 +211,6 @@ def benchmark_dfa_files(dfa: DFA, files_dir: str):
 
     return file_sizes, dfa_on_slp_times, dfa_on_lz_times, decompress_slp_times, decompress_lz_times, lz_to_slp_times, dfa_on_list_times
 
-import matplotlib.pyplot as plt
-
 def plot_results(
     input_sizes,
     dfa_on_slp,
@@ -263,15 +262,13 @@ def plot_results(
     plt.savefig("dfa_files_benchmark.png")
     plt.show()
 
-import random
-
 def generate_random_compressible_slp(n: int) -> SLP[str]:
     """
     Generates an SLP that expands to ~2^n, uses multiple constants,
     and enforces deeper structure: left/right are always chosen
     from instructions only if possible.
     """
-    constants = list("abcdefghijklmnopqrstuvwxyz")
+    constants : list[str] = list("abcdefghijklmnopqrstuvwxyz")
     instructions = []
     num_constants = 26
     current_size = num_constants
@@ -401,39 +398,37 @@ def plot_random_dfa(results):
     plt.show()
 
 
-
-
 if __name__ == "__main__":
 
-    # dfa = modk_a_dfa(512)
-    # max_exp = 25
+    dfa = modk_a_dfa(512)
+    max_exp = 25
 
-    # (
-    #     input_sizes,
-    #     dfa_on_slp,
-    #     dfa_on_lz,
-    #     decompress_slp,
-    #     decompress_lz,
-    #     lz_to_slp,
-    #     dfa_on_list
-    # ) = benchmark_dfa_supercompress(dfa, max_exp)
+    (
+        input_sizes,
+        dfa_on_slp,
+        dfa_on_lz,
+        decompress_slp,
+        decompress_lz,
+        lz_to_slp,
+        dfa_on_list
+    ) = benchmark_dfa_supercompress(dfa, max_exp)
 
-    # plot_results(input_sizes, dfa_on_slp, dfa_on_lz, decompress_slp, decompress_lz, lz_to_slp, dfa_on_list, title="DFA Supercompress Benchmark")
+    plot_results(input_sizes, dfa_on_slp, dfa_on_lz, decompress_slp, decompress_lz, lz_to_slp, dfa_on_list, title="DFA Supercompress Benchmark")
 
-    # Benchmark files too:
-    # dfa = dfa_accept_blue()
-    # files_dir = "./slp_eval/tests/files"
-    # (
-    #     file_sizes,
-    #     f_dfa_on_slp,
-    #     f_dfa_on_lz,
-    #     f_decompress_slp,
-    #     f_decompress_lz,
-    #     f_lz_to_slp,
-    #     f_dfa_on_list
-    # ) = benchmark_dfa_files(dfa, files_dir)
+    #Benchmark files too:
+    dfa = dfa_accept_blue()
+    files_dir = "./slp_eval/tests/files"
+    (
+        file_sizes,
+        f_dfa_on_slp,
+        f_dfa_on_lz,
+        f_decompress_slp,
+        f_decompress_lz,
+        f_lz_to_slp,
+        f_dfa_on_list
+    ) = benchmark_dfa_files(dfa, files_dir)
 
-    # plot_results(file_sizes, f_dfa_on_slp, f_dfa_on_lz, f_decompress_slp, f_decompress_lz, f_lz_to_slp, f_dfa_on_list, title="DFA Files Benchmark")
+    plot_results(file_sizes, f_dfa_on_slp, f_dfa_on_lz, f_decompress_slp, f_decompress_lz, f_lz_to_slp, f_dfa_on_list, title="DFA Files Benchmark")
 
     dfa = modk_a_dfa(20)
     max_limit = 270
